@@ -13,6 +13,6 @@ public class Apple extends Food
     }
     
     public void act() {
-        setLocation(getX(), getY() + 3);
+        drop(3);
     }
 }

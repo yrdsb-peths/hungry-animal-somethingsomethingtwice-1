@@ -23,5 +23,18 @@ public class Hero extends Actor
        if (Greenfoot.isKeyDown("left"))
            movement--;
        move(movement * speed);
+       
+       collideWithFood();
+    }
+    
+    private void collideWithFood() {
+        Actor obj = getOneIntersectingObject(Food.class);
+        if (obj != null) {
+            Food food = (Food) obj;
+            MyWorld world = (MyWorld) getWorld();
+            world.incrementScore(food.getValue());
+            world.removeObject(food);
+            world.createFood();
+        }
     }
 }

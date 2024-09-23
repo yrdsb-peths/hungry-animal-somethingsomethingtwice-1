@@ -8,10 +8,15 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Hero extends Actor
 {
-    int speed = 8;
+    private int speed = 8;
+    private int scale = 2;
     
-    public void act()
-    {
+    public Hero() {
+        GreenfootImage image = getImage();
+        image.scale(image.getWidth() * scale, image.getHeight() * scale);
+    }
+    
+    public void act() {
        int movement = 0;
        if (Greenfoot.isKeyDown("right"))
            movement++;

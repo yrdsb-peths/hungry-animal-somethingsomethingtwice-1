@@ -9,22 +9,36 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Hero extends Actor
 {
     private int speed = 8;
+    private boolean isLeft = false;
     private int scale = 2;
     
+    GreenfootImage[] idleSprites = new GreenfootImage[1];
+    GreenfootImage[] idleSpritesLeft = new GreenfootImage[1];
     public Hero() {
-        GreenfootImage image = getImage();
-        image.scale(image.getWidth() * scale, image.getHeight() * scale);
+        idleSprites[0] = getImage();
+        idleSprites[0].scale(idleSprites[0].getWidth() * scale, idleSprites[0].getHeight() * scale);
+        
+        idleSpritesLeft[0] = new GreenfootImage(idleSprites[0]);
+        idleSpritesLeft[0].mirrorHorizontally();
     }
     
     public void act() {
-       int movement = 0;
-       if (Greenfoot.isKeyDown("right"))
-           movement++;
-       if (Greenfoot.isKeyDown("left"))
-           movement--;
-       move(movement * speed);
+        int movement = 0;
+        if (Greenfoot.isKeyDown("right"))
+            movement++;
+        if (Greenfoot.isKeyDown("left")) {
+            movement--;
+        }
+        move(movement * speed);
+        
+        if (movement != 0) {
+            if (movement > 0)
+                setImage(idleSprites[0]);
+            else
+                setImage(idleSpritesLeft[0]);
+        }
        
-       collideWithFood();
+        collideWithFood();
     }
     
     private void collideWithFood() {

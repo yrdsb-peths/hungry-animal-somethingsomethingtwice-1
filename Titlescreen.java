@@ -31,9 +31,9 @@ public class Titlescreen extends World
         Label label2 = new Label("Use arrow keys to move!", 32);
         addObject(label2,42,134);
         label2.setLocation(168,118);
-        Label label3 = new Label("Collect food and don't let them drop!", 32);
-        addObject(label3,35,168);
-        label3.setLocation(239,153);
+        Label label3 = new Label("Collect food and don't let apples drop!", 32);
+        addObject(label3,246,168);
+        label3.setLocation(246,153);
         TitlescreenHero titlescreenHero = new TitlescreenHero();
         addObject(titlescreenHero,82,298);
         titlescreenHero.setLocation(74,327);

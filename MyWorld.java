@@ -10,6 +10,8 @@ public class MyWorld extends World
 {
     int score = 0;
     Label label;
+    SimpleTimer orangeTimer;
+    boolean orangeSpawned = false;
     
     public MyWorld()
     {    
@@ -24,20 +26,27 @@ public class MyWorld extends World
         Hero hero = new Hero();
         addObject(hero, 300, 400 - 64);
         createFood();
+        
+        orangeTimer = new SimpleTimer();
+        orangeTimer.mark();
+    }
+    
+    public void act() {
+        if (!orangeSpawned && orangeTimer.millisElapsed() > 6000) {
+            int x = Greenfoot.getRandomNumber(600);
+            addObject(new Orange(), x, 0);
+            orangeSpawned = true;
+        }
     }
     
     public void createFood() {
-        Food food = null;
-        int rand = Greenfoot.getRandomNumber(1);
-        
-        if (rand == 0) {
-            food = new Apple();
-        }
-        
-        if (food != null) {
-            int x = Greenfoot.getRandomNumber(600);
-            addObject(food, x, 0);
-        }
+        int x = Greenfoot.getRandomNumber(600);
+        addObject(new Apple(), x, 0);
+    }
+    
+    public void startOrangeTimer() {
+        orangeSpawned = false;
+        orangeTimer.mark();
     }
     
     public void incrementScore(int score) {

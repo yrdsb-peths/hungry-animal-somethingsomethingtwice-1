@@ -1,21 +1,20 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
-public class Apple extends Food
+public class Orange extends Food
 {
-    public Apple() {
-        super(1);
+    public Orange() {
+        super(5);
     }
     
     public void act() {
-        drop(3);
+        drop(8);
     }
     
     public void onDrop() {
-        GameOver gameover = new GameOver();
-        world.addObject(gameover, 300, 200);
+        world.startOrangeTimer();
     }
     
     public void onCollect() {
-        world.createFood();
+        world.startOrangeTimer();
     }
 }

@@ -17,7 +17,7 @@ public class Hero extends Actor
     private GreenfootImage[][] idleSprites = new GreenfootImage[8][2];
     private GreenfootImage[][] walkSprites = new GreenfootImage[8][2];
     private GreenfootImage[][] currentSprite = null;
-    private GreenfootSound collectSound;
+    private GreenfootSound collectSound = new GreenfootSound("elephantcub.mp3");;
     public Hero() {
         for (int i = 0; i < idleSprites.length; i++) {
             idleSprites[i][0] = new GreenfootImage("elephant_idle/idle" + i + ".png");
@@ -32,8 +32,6 @@ public class Hero extends Actor
             walkSprites[i][1] = new GreenfootImage(walkSprites[i][0]);
             walkSprites[i][1].mirrorHorizontally();
         }
-        
-        collectSound = new GreenfootSound("elephantcub.mp3");
     }
     
     public void act() {
@@ -66,7 +64,8 @@ public class Hero extends Actor
             MyWorld world = (MyWorld) getWorld();
             world.incrementScore(food.getValue());
             world.removeObject(food);
-            world.createFood();
+            food.onCollect();
+            collectSound.stop();
             collectSound.play();
         }
     }

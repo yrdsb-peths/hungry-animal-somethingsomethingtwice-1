@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public abstract class Food extends Actor {
-    public World world;
+    public MyWorld world;
     private int value;
     
     public Food(int value) {
@@ -9,7 +9,7 @@ public abstract class Food extends Actor {
     }
     
     public void addedToWorld(World world) {
-        this.world = world;
+        this.world = (MyWorld) world;
     }
     
     public int getValue() {
@@ -26,4 +26,5 @@ public abstract class Food extends Actor {
     }
     
     public abstract void onDrop();
+    public abstract void onCollect();
 }

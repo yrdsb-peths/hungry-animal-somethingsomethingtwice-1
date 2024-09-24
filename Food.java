@@ -1,7 +1,7 @@
 import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 
 public abstract class Food extends Actor {
-    private World world;
+    public World world;
     private int value;
     
     public Food(int value) {
@@ -20,6 +20,10 @@ public abstract class Food extends Actor {
         setLocation(getX(), getY() + speed);
         if (getY() >= world.getHeight() - 1) {
             world.removeObject(this);
+            onDrop();
         }
+        
     }
+    
+    public abstract void onDrop();
 }

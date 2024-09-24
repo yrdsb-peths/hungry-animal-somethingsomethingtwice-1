@@ -17,6 +17,7 @@ public class Hero extends Actor
     private GreenfootImage[][] idleSprites = new GreenfootImage[8][2];
     private GreenfootImage[][] walkSprites = new GreenfootImage[8][2];
     private GreenfootImage[][] currentSprite = null;
+    private GreenfootSound collectSound;
     public Hero() {
         for (int i = 0; i < idleSprites.length; i++) {
             idleSprites[i][0] = new GreenfootImage("elephant_idle/idle" + i + ".png");
@@ -31,27 +32,31 @@ public class Hero extends Actor
             walkSprites[i][1] = new GreenfootImage(walkSprites[i][0]);
             walkSprites[i][1].mirrorHorizontally();
         }
+        
+        collectSound = new GreenfootSound("elephantcub.mp3");
     }
     
     public void act() {
-        int movement = 0;
-        if (Greenfoot.isKeyDown("right"))
-            movement++;
-        if (Greenfoot.isKeyDown("left")) {
-            movement--;
+        if (getWorld().getObjects(GameOver.class).size() <= 0) {
+            int movement = 0;
+            if (Greenfoot.isKeyDown("right"))
+                movement++;
+            if (Greenfoot.isKeyDown("left")) {
+                movement--;
+            }
+            move(movement * speed);
+            
+            if (movement != 0) {
+                if (movement > 0)
+                    isLeft = false;
+                else
+                    isLeft = true;
+                switchSprite(walkSprites);
+            } else
+                switchSprite(idleSprites);
+           
+            collideWithFood();
         }
-        move(movement * speed);
-        
-        if (movement != 0) {
-            if (movement > 0)
-                isLeft = false;
-            else
-                isLeft = true;
-            switchSprite(walkSprites);
-        } else
-            switchSprite(idleSprites);
-       
-        collideWithFood();
     }
     
     private void collideWithFood() {
@@ -62,6 +67,7 @@ public class Hero extends Actor
             world.incrementScore(food.getValue());
             world.removeObject(food);
             world.createFood();
+            collectSound.play();
         }
     }
     

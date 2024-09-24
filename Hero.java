@@ -9,17 +9,28 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
 public class Hero extends Actor
 {
     private int speed = 8;
-    private boolean isLeft = false;
     private int scale = 2;
+    private double spriteIndex = 0.0;
+    private double spriteWrap = 0.0;
+    private boolean isLeft = false;
     
-    GreenfootImage[] idleSprites = new GreenfootImage[1];
-    GreenfootImage[] idleSpritesLeft = new GreenfootImage[1];
+    private GreenfootImage[][] idleSprites = new GreenfootImage[8][2];
+    private GreenfootImage[][] walkSprites = new GreenfootImage[8][2];
+    private GreenfootImage[][] currentSprite = null;
     public Hero() {
-        idleSprites[0] = getImage();
-        idleSprites[0].scale(idleSprites[0].getWidth() * scale, idleSprites[0].getHeight() * scale);
+        for (int i = 0; i < idleSprites.length; i++) {
+            idleSprites[i][0] = new GreenfootImage("elephant_idle/idle" + i + ".png");
+            idleSprites[i][0].scale(idleSprites[i][0].getWidth() * scale, idleSprites[i][0].getHeight() * scale);
+            idleSprites[i][1] = new GreenfootImage(idleSprites[i][0]);
+            idleSprites[i][1].mirrorHorizontally();
+        }
         
-        idleSpritesLeft[0] = new GreenfootImage(idleSprites[0]);
-        idleSpritesLeft[0].mirrorHorizontally();
+        for (int i = 0; i < walkSprites.length; i++) {
+            walkSprites[i][0] = new GreenfootImage("elephant_walk/walk" + i + ".png");
+            walkSprites[i][0].scale(walkSprites[i][0].getWidth() * scale, walkSprites[i][0].getHeight() * scale);
+            walkSprites[i][1] = new GreenfootImage(walkSprites[i][0]);
+            walkSprites[i][1].mirrorHorizontally();
+        }
     }
     
     public void act() {
@@ -33,10 +44,12 @@ public class Hero extends Actor
         
         if (movement != 0) {
             if (movement > 0)
-                setImage(idleSprites[0]);
+                isLeft = false;
             else
-                setImage(idleSpritesLeft[0]);
-        }
+                isLeft = true;
+            switchSprite(walkSprites);
+        } else
+            switchSprite(idleSprites);
        
         collideWithFood();
     }
@@ -50,5 +63,17 @@ public class Hero extends Actor
             world.removeObject(food);
             world.createFood();
         }
+    }
+    
+    private void switchSprite(GreenfootImage[][] newSprite) {
+        if (currentSprite != newSprite) {
+            currentSprite = newSprite;
+            spriteIndex = 0;
+            spriteWrap = newSprite.length;
+        } else {
+            spriteIndex = (spriteIndex + 0.35) % spriteWrap;
+        }
+        
+        setImage(newSprite[(int) spriteIndex][isLeft ? 1 : 0]);
     }
 }
